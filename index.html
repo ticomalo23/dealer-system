@@ -55,13 +55,14 @@
     </div>
 
     <div class="filters" id="filters">
-      <button class="filter-btn active" data-filter="all">Todos</button>
-      <button class="filter-btn" data-filter="sedan">Sedán</button>
-      <button class="filter-btn" data-filter="suv">SUV</button>
-      <button class="filter-btn" data-filter="pickup">Pickup</button>
+      <button class="filter-btn active" data-sort="recent">Más recientes</button>
+      <button class="filter-btn" data-sort="price-asc">Precio: menor a mayor</button>
+      <button class="filter-btn" data-sort="price-desc">Precio: mayor a menor</button>
     </div>
 
-    <div class="car-grid" id="carGrid"></div>
+    <div class="car-grid" id="carGrid">
+      <p class="inventory-status" id="inventoryStatus">Cargando inventario...</p>
+    </div>
   </div>
 </section>
 
@@ -200,6 +201,7 @@
   </div>
 </footer>
 
+<script src="assets/js/config.js"></script>
 <script src="assets/js/main.js"></script>
 </body>
 </html>

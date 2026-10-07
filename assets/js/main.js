@@ -1,44 +1,93 @@
-const cars = [
-  { name: "Sedán Elite 2024", type: "sedan", icon: "🚘", price: "$21,500", meta: "2024 · Automático · 12,000 km", badge: "Nuevo" },
-  { name: "SUV Explorer 2023", type: "suv", icon: "🚙", price: "$28,900", meta: "2023 · 4x4 · 18,500 km", badge: "Certificado" },
-  { name: "Pickup Titan 2022", type: "pickup", icon: "🛻", price: "$32,200", meta: "2022 · Diésel · 25,000 km", badge: "Usado" },
-  { name: "Sedán Comfort 2021", type: "sedan", icon: "🚗", price: "$16,800", meta: "2021 · Manual · 40,000 km", badge: "Usado" },
-  { name: "SUV Highland 2024", type: "suv", icon: "🚐", price: "$34,700", meta: "2024 · Híbrido · 5,000 km", badge: "Nuevo" },
-  { name: "Pickup Ranger 2023", type: "pickup", icon: "🚚", price: "$29,900", meta: "2023 · 4x2 · 15,000 km", badge: "Certificado" },
-];
-
+const API_BASE = window.CRM_API_BASE || "";
 const carGrid = document.getElementById("carGrid");
+const inventoryStatus = document.getElementById("inventoryStatus");
 
-function renderCars(filter) {
+let vehicles = [];
+let currentSort = "recent";
+
+function formatPrice(price) {
+  if (!price) return "Consultar precio";
+  return `$${Number(price).toLocaleString("en-US", { maximumFractionDigits: 0 })}`;
+}
+
+function formatMeta(v) {
+  const parts = [v.year, v.color, v.mileage ? `${Number(v.mileage).toLocaleString("en-US")} mi` : null].filter(Boolean);
+  return parts.join(" · ");
+}
+
+function sortVehicles(list, sort) {
+  const sorted = [...list];
+  if (sort === "price-asc") sorted.sort((a, b) => (a.price || 0) - (b.price || 0));
+  else if (sort === "price-desc") sorted.sort((a, b) => (b.price || 0) - (a.price || 0));
+  return sorted;
+}
+
+function renderVehicles() {
+  const list = sortVehicles(vehicles, currentSort);
   carGrid.innerHTML = "";
-  const filtered = filter === "all" ? cars : cars.filter((c) => c.type === filter);
-  filtered.forEach((car) => {
+
+  if (list.length === 0) {
+    carGrid.innerHTML = `<p class="inventory-status">Por el momento no hay vehículos publicados. <a href="#contacto">Contáctanos</a> y te avisamos apenas tengamos algo para ti.</p>`;
+    return;
+  }
+
+  list.forEach((v) => {
     const card = document.createElement("div");
     card.className = "car-card";
+    const photo = v.photos && v.photos[0] ? `${API_BASE}${v.photos[0]}` : null;
+    const title = `${v.year || ""} ${v.make || ""} ${v.model || ""}`.trim();
+
     card.innerHTML = `
-      <div class="car-media">
-        <span class="car-badge">${car.badge}</span>
-        <span>${car.icon}</span>
+      <div class="car-media" ${photo ? `style="background-image:url('${photo}');background-size:cover;background-position:center;"` : ""}>
+        ${v.title_status && v.title_status.toLowerCase() !== "clean" ? `<span class="car-badge">${v.title_status}</span>` : ""}
+        ${photo ? "" : "<span>🚗</span>"}
       </div>
       <div class="car-body">
-        <h3>${car.name}</h3>
-        <div class="car-meta">${car.meta}</div>
-        <div class="car-price">${car.price}</div>
-        <a href="#contacto" class="btn btn-primary">Consultar</a>
+        <h3>${title}</h3>
+        <div class="car-meta">${formatMeta(v)}</div>
+        <div class="car-price">${formatPrice(v.price)}</div>
+        <a href="#contacto" class="btn btn-primary consultar-btn" data-vehicle="${title}">Consultar</a>
       </div>
     `;
     carGrid.appendChild(card);
   });
 }
 
-renderCars("all");
+async function loadVehicles() {
+  if (!API_BASE) {
+    inventoryStatus.textContent = "El inventario no está disponible en este momento.";
+    return;
+  }
+  try {
+    const res = await fetch(`${API_BASE}/api/public/vehicles`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    vehicles = data.vehicles || [];
+    renderVehicles();
+  } catch (err) {
+    carGrid.innerHTML = `<p class="inventory-status">No pudimos cargar el inventario en este momento. <a href="#contacto">Contáctanos</a> y te ayudamos directamente.</p>`;
+    console.error("Error cargando inventario:", err);
+  }
+}
+
+loadVehicles();
 
 document.getElementById("filters").addEventListener("click", (e) => {
   const btn = e.target.closest(".filter-btn");
   if (!btn) return;
   document.querySelectorAll(".filter-btn").forEach((b) => b.classList.remove("active"));
   btn.classList.add("active");
-  renderCars(btn.dataset.filter);
+  currentSort = btn.dataset.sort;
+  renderVehicles();
+});
+
+carGrid.addEventListener("click", (e) => {
+  const btn = e.target.closest(".consultar-btn");
+  if (!btn) return;
+  const interesField = document.querySelector('[name="message"]');
+  if (interesField && !interesField.value) {
+    interesField.value = `Me interesa: ${btn.dataset.vehicle}`;
+  }
 });
 
 const navToggle = document.getElementById("navToggle");
@@ -74,10 +123,35 @@ updateSimulation();
 
 const contactForm = document.getElementById("contactForm");
 const formStatus = document.getElementById("formStatus");
-contactForm.addEventListener("submit", (e) => {
+contactForm.addEventListener("submit", async (e) => {
   e.preventDefault();
-  formStatus.textContent = "¡Gracias! Hemos recibido tu mensaje y te contactaremos pronto.";
-  contactForm.reset();
+  const submitBtn = contactForm.querySelector('button[type="submit"]');
+  submitBtn.disabled = true;
+  formStatus.textContent = "Enviando...";
+
+  const payload = {
+    nombre: contactForm.name.value,
+    email: contactForm.email.value,
+    telefono: contactForm.phone.value,
+    interes: contactForm.message.value,
+  };
+
+  try {
+    if (!API_BASE) throw new Error("API_BASE no configurado");
+    const res = await fetch(`${API_BASE}/api/public/leads`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    formStatus.textContent = "¡Gracias! Hemos recibido tu mensaje y te contactaremos pronto.";
+    contactForm.reset();
+  } catch (err) {
+    formStatus.textContent = "No pudimos enviar tu mensaje. Intenta de nuevo o escríbenos directamente.";
+    console.error("Error enviando lead:", err);
+  } finally {
+    submitBtn.disabled = false;
+  }
 });
 
 document.getElementById("year").textContent = new Date().getFullYear();
