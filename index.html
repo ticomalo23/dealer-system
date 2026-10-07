@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AutoMax | Concesionario de Vehículos</title>
+<meta name="description" content="AutoMax - Concesionario de autos nuevos y usados. Encuentra el vehículo perfecto para ti.">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav-wrap">
+    <a href="#" class="logo">Auto<span>Max</span></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav" id="nav">
+      <a href="#inicio">Inicio</a>
+      <a href="#inventario">Inventario</a>
+      <a href="#financiamiento">Financiamiento</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#nosotros">Nosotros</a>
+      <a href="#contacto" class="btn btn-nav">Contáctanos</a>
+    </nav>
+  </div>
+</header>
+
+<section id="inicio" class="hero">
+  <div class="container hero-inner">
+    <h1>Encuentra tu próximo vehículo</h1>
+    <p>Autos nuevos y usados, financiamiento flexible y la mejor atención. Tu concesionario de confianza.</p>
+    <div class="hero-badge">💳 Ahora ofrecemos financiamiento con aprobación en 24 horas</div>
+    <div class="hero-actions">
+      <a href="#inventario" class="btn btn-primary">Ver inventario</a>
+      <a href="#financiamiento" class="btn btn-outline">Conoce el financiamiento</a>
+    </div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="container stats-grid">
+    <div class="stat"><strong>15+</strong><span>Años de experiencia</span></div>
+    <div class="stat"><strong>2,500+</strong><span>Vehículos vendidos</span></div>
+    <div class="stat"><strong>98%</strong><span>Clientes satisfechos</span></div>
+    <div class="stat"><strong>50+</strong><span>Vehículos en stock</span></div>
+  </div>
+</section>
+
+<section id="inventario" class="inventory">
+  <div class="container">
+    <div class="section-heading">
+      <h2>Inventario destacado</h2>
+      <p>Una selección de nuestros mejores vehículos disponibles ahora.</p>
+    </div>
+
+    <div class="filters" id="filters">
+      <button class="filter-btn active" data-sort="recent">Más recientes</button>
+      <button class="filter-btn" data-sort="price-asc">Precio: menor a mayor</button>
+      <button class="filter-btn" data-sort="price-desc">Precio: mayor a menor</button>
+    </div>
+
+    <div class="car-grid" id="carGrid">
+      <p class="inventory-status" id="inventoryStatus">Cargando inventario...</p>
+    </div>
+  </div>
+</section>
+
+<section id="financiamiento" class="financing">
+  <div class="container financing-grid">
+    <div class="financing-text">
+      <span class="eyebrow">Novedad</span>
+      <h2>Ahora ofrecemos financiamiento</h2>
+      <p>Accede a tu próximo vehículo con planes de pago flexibles, pensados para tu presupuesto. Trabajamos con distintas entidades financieras para ofrecerte la mejor tasa.</p>
+      <ul class="financing-list">
+        <li><strong>Aprobación rápida</strong> — respuesta en menos de 24 horas.</li>
+        <li><strong>Plazos flexibles</strong> — de 36 a 72 meses.</li>
+        <li><strong>Enganche desde 10%</strong> según el vehículo y tu perfil.</li>
+        <li><strong>Aceptamos tu auto actual</strong> como parte del enganche.</li>
+      </ul>
+      <a href="https://firstlane.startyourcreditapproval.com" target="_blank" rel="noopener" class="btn btn-primary">Solicitar financiamiento</a>
+    </div>
+    <div class="financing-card">
+      <h3>Simula tu cuota</h3>
+      <div class="sim-row">
+        <label for="simPrice">Precio del vehículo (USD)</label>
+        <input type="number" id="simPrice" value="25000" min="1000" step="500">
+      </div>
+      <div class="sim-row">
+        <label for="simDown">Enganche (%)</label>
+        <input type="number" id="simDown" value="10" min="0" max="90" step="5">
+      </div>
+      <div class="sim-row">
+        <label for="simTerm">Plazo (meses)</label>
+        <select id="simTerm">
+          <option value="36" selected>36</option>
+          <option value="48">48</option>
+          <option value="60">60</option>
+          <option value="72">72</option>
+        </select>
+      </div>
+      <div class="sim-result">
+        <span>Cuota mensual estimada</span>
+        <strong id="simResult">$0</strong>
+      </div>
+      <p class="sim-disclaimer">*Estimación referencial sujeta a aprobación y tasa final.</p>
+    </div>
+  </div>
+</section>
+
+<section id="servicios" class="services">
+  <div class="container">
+    <div class="section-heading">
+      <h2>Nuestros servicios</h2>
+      <p>Todo lo que necesitas, en un solo lugar.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">🚗</div>
+        <h3>Venta de vehículos</h3>
+        <p>Amplio catálogo de autos nuevos y usados, inspeccionados y certificados.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">💳</div>
+        <h3>Financiamiento</h3>
+        <p>Planes de crédito flexibles adaptados a tu presupuesto.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🔄</div>
+        <h3>Recibimos tu auto</h3>
+        <p>Aceptamos tu vehículo actual como parte de pago.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🔧</div>
+        <h3>Taller y mantenimiento</h3>
+        <p>Servicio postventa con técnicos certificados.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="nosotros" class="about">
+  <div class="container about-grid">
+    <div class="about-text">
+      <div class="section-heading" style="text-align:left">
+        <h2>Sobre AutoMax</h2>
+      </div>
+      <p>En AutoMax llevamos más de 15 años ayudando a nuestros clientes a encontrar el vehículo ideal. Nos especializamos en autos nuevos y usados de alta calidad, con procesos transparentes y atención personalizada en cada paso.</p>
+      <ul class="about-list">
+        <li>Vehículos revisados y certificados</li>
+        <li>Asesoría personalizada sin compromiso</li>
+        <li>Financiamiento aprobado en 24 horas</li>
+        <li>Garantía en todas nuestras unidades</li>
+      </ul>
+    </div>
+    <div class="about-card">
+      <h3>Horario de atención</h3>
+      <ul>
+        <li><span>Lunes a Viernes</span><span>9:00 am – 7:00 pm</span></li>
+        <li><span>Sábados</span><span>9:00 am – 5:00 pm</span></li>
+        <li><span>Domingos</span><span>Cerrado</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="contacto" class="contact">
+  <div class="container contact-grid">
+    <div class="contact-info">
+      <div class="section-heading" style="text-align:left">
+        <h2>Contáctanos</h2>
+        <p>¿Tienes preguntas o quieres agendar una visita? Escríbenos.</p>
+      </div>
+      <ul class="info-list">
+        <li>📍 Av. Principal 123, Ciudad</li>
+        <li>📞 (555) 123-4567</li>
+        <li>✉️ contacto@automax.com</li>
+      </ul>
+    </div>
+    <form class="contact-form" id="contactForm">
+      <div class="form-row">
+        <input type="text" name="name" placeholder="Nombre completo" required>
+        <input type="tel" name="phone" placeholder="Teléfono">
+      </div>
+      <input type="email" name="email" placeholder="Correo electrónico" required>
+      <textarea name="message" rows="4" placeholder="¿En qué podemos ayudarte?" required></textarea>
+      <button type="submit" class="btn btn-primary">Enviar mensaje</button>
+      <p class="form-status" id="formStatus"></p>
+    </form>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <span>&copy; <span id="year"></span> AutoMax. Todos los derechos reservados.</span>
+    <div class="footer-links">
+      <a href="#inicio">Inicio</a>
+      <a href="#inventario">Inventario</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
