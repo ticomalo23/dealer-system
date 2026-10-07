@@ -18,6 +18,7 @@
     <nav class="nav" id="nav">
       <a href="#inicio">Inicio</a>
       <a href="#inventario">Inventario</a>
+      <a href="#financiamiento">Financiamiento</a>
       <a href="#servicios">Servicios</a>
       <a href="#nosotros">Nosotros</a>
       <a href="#contacto" class="btn btn-nav">Contáctanos</a>
@@ -29,9 +30,10 @@
   <div class="container hero-inner">
     <h1>Encuentra tu próximo vehículo</h1>
     <p>Autos nuevos y usados, financiamiento flexible y la mejor atención. Tu concesionario de confianza.</p>
+    <div class="hero-badge">💳 Ahora ofrecemos financiamiento con aprobación en 24 horas</div>
     <div class="hero-actions">
       <a href="#inventario" class="btn btn-primary">Ver inventario</a>
-      <a href="#contacto" class="btn btn-outline">Solicitar información</a>
+      <a href="#financiamiento" class="btn btn-outline">Conoce el financiamiento</a>
     </div>
   </div>
 </section>
@@ -60,6 +62,50 @@
     </div>
 
     <div class="car-grid" id="carGrid"></div>
+  </div>
+</section>
+
+<section id="financiamiento" class="financing">
+  <div class="container financing-grid">
+    <div class="financing-text">
+      <span class="eyebrow">Novedad</span>
+      <h2>Ahora ofrecemos financiamiento</h2>
+      <p>Accede a tu próximo vehículo con planes de pago flexibles, pensados para tu presupuesto. Trabajamos con distintas entidades financieras para ofrecerte la mejor tasa.</p>
+      <ul class="financing-list">
+        <li><strong>Aprobación rápida</strong> — respuesta en menos de 24 horas.</li>
+        <li><strong>Plazos flexibles</strong> — de 12 a 72 meses.</li>
+        <li><strong>Enganche desde 10%</strong> según el vehículo y tu perfil.</li>
+        <li><strong>Aceptamos tu auto actual</strong> como parte del enganche.</li>
+      </ul>
+      <a href="#contacto" class="btn btn-primary">Solicitar financiamiento</a>
+    </div>
+    <div class="financing-card">
+      <h3>Simula tu cuota</h3>
+      <div class="sim-row">
+        <label for="simPrice">Precio del vehículo (USD)</label>
+        <input type="number" id="simPrice" value="25000" min="1000" step="500">
+      </div>
+      <div class="sim-row">
+        <label for="simDown">Enganche (%)</label>
+        <input type="number" id="simDown" value="10" min="0" max="90" step="5">
+      </div>
+      <div class="sim-row">
+        <label for="simTerm">Plazo (meses)</label>
+        <select id="simTerm">
+          <option value="12">12</option>
+          <option value="24">24</option>
+          <option value="36" selected>36</option>
+          <option value="48">48</option>
+          <option value="60">60</option>
+          <option value="72">72</option>
+        </select>
+      </div>
+      <div class="sim-result">
+        <span>Cuota mensual estimada</span>
+        <strong id="simResult">$0</strong>
+      </div>
+      <p class="sim-disclaimer">*Estimación referencial sujeta a aprobación y tasa final.</p>
+    </div>
   </div>
 </section>
 

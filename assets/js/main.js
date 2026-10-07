@@ -48,6 +48,30 @@ nav.querySelectorAll("a").forEach((link) =>
   link.addEventListener("click", () => nav.classList.remove("open"))
 );
 
+const simPrice = document.getElementById("simPrice");
+const simDown = document.getElementById("simDown");
+const simTerm = document.getElementById("simTerm");
+const simResult = document.getElementById("simResult");
+const ANNUAL_RATE = 0.12;
+
+function updateSimulation() {
+  const price = parseFloat(simPrice.value) || 0;
+  const downPct = parseFloat(simDown.value) || 0;
+  const months = parseInt(simTerm.value, 10) || 1;
+
+  const financedAmount = price * (1 - downPct / 100);
+  const monthlyRate = ANNUAL_RATE / 12;
+  const payment =
+    monthlyRate === 0
+      ? financedAmount / months
+      : (financedAmount * monthlyRate) / (1 - Math.pow(1 + monthlyRate, -months));
+
+  simResult.textContent = `$${Math.max(payment, 0).toLocaleString("en-US", { maximumFractionDigits: 0 })}`;
+}
+
+[simPrice, simDown, simTerm].forEach((el) => el.addEventListener("input", updateSimulation));
+updateSimulation();
+
 const contactForm = document.getElementById("contactForm");
 const formStatus = document.getElementById("formStatus");
 contactForm.addEventListener("submit", (e) => {
